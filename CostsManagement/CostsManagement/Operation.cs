@@ -11,7 +11,7 @@ namespace CostsManagement
         private DateTime _date;
         private Account _account;
         private Category _category;
-        private int _sum;
+        private double _sum;
 
         /// <summary>
         /// 
@@ -19,7 +19,7 @@ namespace CostsManagement
         /// <param name="Acc">Account</param>
         /// <param name="Ctg">Operation type</param>
         /// <param name="Sum">Transaction amount</param>
-        public Operation(Account Acc, Category Ctg, int Sum)
+        public Operation(Account Acc, Category Ctg, float Sum)
         {
             _date = DateTime.Now;
             _account = Acc;
@@ -38,7 +38,7 @@ namespace CostsManagement
         /// <param name="Acc">Account</param>
         /// <param name="Ctg">Operation type</param>
         /// <param name="Sum">Transaction amount</param>
-        public Operation(DateTime Date, Account Acc, Category Ctg, int Sum)
+        public Operation(DateTime Date, Account Acc, Category Ctg, double Sum)
         {
             _date = Date;
             _account = Acc;
@@ -77,7 +77,7 @@ namespace CostsManagement
             }
         }
 
-        public int Sum
+        public double Sum
         {
             get { return _sum; }
             set

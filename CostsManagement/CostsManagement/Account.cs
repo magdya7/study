@@ -9,7 +9,7 @@ namespace CostsManagement
     class Account
     {
         private string _name; // Account name
-        private int _balance; // Acconut balance
+        private double _balance; // Acconut balance
         private static int counter = 0;
         
         /// <summary>
@@ -49,7 +49,7 @@ namespace CostsManagement
             }
         }
 
-        public int Balance
+        public double Balance
         {
             get { return _balance; }
             set { _balance = value; }
