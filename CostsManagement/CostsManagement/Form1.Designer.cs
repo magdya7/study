@@ -408,10 +408,9 @@
             this.tb_Sum.Size = new System.Drawing.Size(201, 20);
             this.tb_Sum.TabIndex = 8;
             this.tb_Sum.Text = "0,00";
-            this.tb_Sum.TextChanged += new System.EventHandler(this.tb_Sum_TextChanged);
             this.tb_Sum.Enter += new System.EventHandler(this.tb_Sum_Enter);
-            this.tb_Sum.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_Sum_KeyDown);
             this.tb_Sum.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_Sum_KeyPress);
+            this.tb_Sum.Leave += new System.EventHandler(this.tb_Sum_Leave);
             // 
             // tb_Note
             // 

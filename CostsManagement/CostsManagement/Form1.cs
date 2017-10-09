@@ -69,98 +69,40 @@ namespace CostsManagement
             //dateTimePicker2.CustomFormat = "yyyy" //"2017"
         }
 
-        private void tb_Sum_TextChanged(object sender, EventArgs e)
-        {
-            if (tb_Sum.Text.IndexOf(',') == -1)
-                tb_Sum.Text += ",00";
-            //if (tb_Sum.Text.IndexOf(',') == 0 && tb_Sum.Text.Length < 4)
-            //    tb_Sum.Text = "0" + tb_Sum.Text; 
-        }
-
         private void tb_Sum_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '.')
+            //Replace "." to "," for convert from string to double
+            if (e.KeyChar == '.') 
                 e.KeyChar = ',';
-            if (tb_Sum.Text.Length == 4 && tb_Sum.Text[0] == '0' && tb_Sum.SelectionStart == 0)
+
+            //If cursor position is 0 and first digit 0 then replace 0 for other digit from input, when nothing selected
+            if (tb_Sum.Text.Length == 4 && tb_Sum.Text[0] == '0' && tb_Sum.SelectionStart == 0 && tb_Sum.SelectionLength == 0)
                 tb_Sum.SelectionLength = 1;
-                
-            if (e.KeyChar == (char)8)
-            {
-                if ((tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 1 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') <= 3)
-                    || (tb_Sum.Text.Length == 4 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') != 1))
-                {
-                    e.Handled = true;
-                    FormatSum(Keys.Back);
-                }
-                else
-                    if (tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') == 1)
-                {
-                    tb_Sum.SelectionStart--;
-                    e.Handled = true;
-                }
-            }
-            else
+
+            //Allow digits
             if (e.KeyChar >= '0' && e.KeyChar <= '9')
             {
-                if (tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') <= 2 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 0)
-                {
-                    tb_Sum.SelectionLength = 1;
-                }
-                else
-                    if (tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 2 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 0)
+                //Only 2 digits after separator (",")
+                if (tb_Sum.Text.IndexOf(',') != -1 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 2 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 0)
                     e.Handled = true;
             }
             else
-            if (tb_Sum.TextLength != 0 && e.KeyChar == ',')
-                if (tb_Sum.Text.Contains(","))
-                {
-                    if (tb_Sum.SelectionStart == tb_Sum.Text.IndexOf(','))
-                        tb_Sum.SelectionStart++;
-                    e.Handled = true;
-                }
-                else
-                    e.Handled = false;
-
-            else
-                e.Handled = true;
-        }
-
-        private void tb_Sum_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyData == Keys.Delete)
-                if (tb_Sum.Text.IndexOf(',') == tb_Sum.SelectionStart)
-                {
-                    tb_Sum.SelectionStart++;
-                    e.Handled = true;
-                }
-                else
-                    if (tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') <= 2 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 0
-                        || (tb_Sum.Text.Length == 4 && tb_Sum.SelectionStart == 0))
+                //Allow "," when its not begin of text
+                if (tb_Sum.TextLength != 0 && e.KeyChar == ',')
+                    //If "," alreary in text then denided input
+                    if (tb_Sum.Text.Contains(","))
                     {
+                        //If next symbol "," then shift cursor to right
+                        if (tb_Sum.SelectionStart == tb_Sum.Text.IndexOf(','))
+                            tb_Sum.SelectionStart++;
                         e.Handled = true;
-                        FormatSum(Keys.Delete);
                     }
-        }
-
-        void FormatSum(Keys e)
-        {
-            int ss = tb_Sum.SelectionStart; // remember start position
-            if (e == Keys.Delete)
-            {
-                tb_Sum.Text = tb_Sum.Text.Remove(ss, 1);
-                tb_Sum.Text = tb_Sum.Text.Insert(ss, "0");
-
-                if(tb_Sum.SelectionStart == 0 && tb_Sum.Text.Length == 4)
-                    tb_Sum.SelectionStart = ss;
+                    else
+                        e.Handled = false;
                 else
-                    tb_Sum.SelectionStart = ++ss;
-            }
-            else
-            {
-                tb_Sum.Text = tb_Sum.Text.Remove(--ss, 1);
-                tb_Sum.Text = tb_Sum.Text.Insert(ss, "0");
-                tb_Sum.SelectionStart = ss;
-            }
+                    //Allow backspace
+                    if (e.KeyChar != (char)8) 
+                        e.Handled = true;
         }
 
         private void tb_Sum_Enter(object sender, EventArgs e)
@@ -168,6 +110,30 @@ namespace CostsManagement
             tb_Sum.SelectionStart = 0;
             tb_Sum.SelectionLength = tb_Sum.Text.IndexOf(",");  
         }
+
+        private void tb_Sum_Leave(object sender, EventArgs e)
+        {
+            //Add coins for money format
+            if (tb_Sum.Text.IndexOf(',') == -1)
+                tb_Sum.Text += ",00";
+            else
+                //Fill in "0" after "," for have money format
+                while (tb_Sum.Text.Length - tb_Sum.Text.IndexOf(',') < 3)
+                {
+                    tb_Sum.Text += "0";
+                }
+
+            //Add "0" if first symbol is ","
+            if (tb_Sum.Text.IndexOf(',') == 0)
+                tb_Sum.Text = "0" + tb_Sum.Text;
+
+            //Remove excessive "0"
+            while (tb_Sum.Text[0] == '0' && (tb_Sum.Text.IndexOf(',') != 1 || (tb_Sum.Text.IndexOf(',') == -1 && tb_Sum.Text.Length > 1)))
+            {
+                tb_Sum.Text = tb_Sum.Text.Remove(0, 1);
+            }
+        }
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {
