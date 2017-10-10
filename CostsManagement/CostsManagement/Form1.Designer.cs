@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,15 +88,15 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.treeHistory = new System.Windows.Forms.TreeView();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart_Analysis = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-            this.label8 = new System.Windows.Forms.Label();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.label7 = new System.Windows.Forms.Label();
+            this.gb_Analysis = new System.Windows.Forms.GroupBox();
+            this.cb_TypeOfDate = new System.Windows.Forms.ComboBox();
+            this.label_TypeOfDate = new System.Windows.Forms.Label();
+            this.dtp_DateTo = new System.Windows.Forms.DateTimePicker();
+            this.label_DateTo = new System.Windows.Forms.Label();
+            this.dtp_DateFrom = new System.Windows.Forms.DateTimePicker();
+            this.label_DateFrom = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -106,9 +106,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_History)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_Analysis)).BeginInit();
             this.panel3.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gb_Analysis.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -570,7 +570,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.chart1);
+            this.panel2.Controls.Add(this.chart_Analysis);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(221, 24);
@@ -578,113 +578,114 @@
             this.panel2.Size = new System.Drawing.Size(321, 486);
             this.panel2.TabIndex = 4;
             // 
-            // chart1
+            // chart_Analysis
             // 
-            chartArea8.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea8);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend8.Name = "Legend1";
-            this.chart1.Legends.Add(legend8);
-            this.chart1.Location = new System.Drawing.Point(0, 0);
-            this.chart1.Name = "chart1";
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series8.Legend = "Legend1";
-            series8.Name = "Series1";
-            this.chart1.Series.Add(series8);
-            this.chart1.Size = new System.Drawing.Size(321, 374);
-            this.chart1.TabIndex = 1;
-            this.chart1.Text = "chart1";
+            chartArea1.Name = "ChartArea1";
+            this.chart_Analysis.ChartAreas.Add(chartArea1);
+            this.chart_Analysis.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart_Analysis.Legends.Add(legend1);
+            this.chart_Analysis.Location = new System.Drawing.Point(0, 0);
+            this.chart_Analysis.Name = "chart_Analysis";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Doughnut;
+            series1.Legend = "Legend1";
+            series1.Name = "SeriesAnalysis";
+            this.chart_Analysis.Series.Add(series1);
+            this.chart_Analysis.Size = new System.Drawing.Size(321, 374);
+            this.chart_Analysis.TabIndex = 1;
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Controls.Add(this.gb_Analysis);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 374);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(321, 112);
             this.panel3.TabIndex = 0;
             // 
-            // groupBox1
+            // gb_Analysis
             // 
-            this.groupBox1.Controls.Add(this.comboBox3);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.dateTimePicker3);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.dateTimePicker2);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(321, 112);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Analysis";
+            this.gb_Analysis.Controls.Add(this.cb_TypeOfDate);
+            this.gb_Analysis.Controls.Add(this.label_TypeOfDate);
+            this.gb_Analysis.Controls.Add(this.dtp_DateTo);
+            this.gb_Analysis.Controls.Add(this.label_DateTo);
+            this.gb_Analysis.Controls.Add(this.dtp_DateFrom);
+            this.gb_Analysis.Controls.Add(this.label_DateFrom);
+            this.gb_Analysis.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gb_Analysis.Location = new System.Drawing.Point(0, 0);
+            this.gb_Analysis.Name = "gb_Analysis";
+            this.gb_Analysis.Size = new System.Drawing.Size(321, 112);
+            this.gb_Analysis.TabIndex = 0;
+            this.gb_Analysis.TabStop = false;
+            this.gb_Analysis.Text = "Analysis";
             // 
-            // comboBox3
+            // cb_TypeOfDate
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.cb_TypeOfDate.FormattingEnabled = true;
+            this.cb_TypeOfDate.Items.AddRange(new object[] {
             "Day",
             "Week",
             "Month",
             "Year",
             "Other"});
-            this.comboBox3.Location = new System.Drawing.Point(6, 32);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(143, 21);
-            this.comboBox3.TabIndex = 1;
-            this.comboBox3.Text = "Day";
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            this.cb_TypeOfDate.Location = new System.Drawing.Point(6, 32);
+            this.cb_TypeOfDate.Name = "cb_TypeOfDate";
+            this.cb_TypeOfDate.Size = new System.Drawing.Size(143, 21);
+            this.cb_TypeOfDate.TabIndex = 1;
+            this.cb_TypeOfDate.Text = "Day";
+            this.cb_TypeOfDate.SelectedIndexChanged += new System.EventHandler(this.cb_TypeOfDate_SelectedIndexChanged);
             // 
-            // label6
+            // label_TypeOfDate
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 16);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Type of date";
+            this.label_TypeOfDate.AutoSize = true;
+            this.label_TypeOfDate.Location = new System.Drawing.Point(6, 16);
+            this.label_TypeOfDate.Name = "label_TypeOfDate";
+            this.label_TypeOfDate.Size = new System.Drawing.Size(67, 13);
+            this.label_TypeOfDate.TabIndex = 5;
+            this.label_TypeOfDate.Text = "Type of date";
             // 
-            // dateTimePicker3
+            // dtp_DateTo
             // 
-            this.dateTimePicker3.CustomFormat = "";
-            this.dateTimePicker3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateTimePicker3.Location = new System.Drawing.Point(155, 70);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.Size = new System.Drawing.Size(143, 20);
-            this.dateTimePicker3.TabIndex = 0;
-            this.dateTimePicker3.Value = new System.DateTime(2017, 10, 1, 0, 0, 0, 0);
-            this.dateTimePicker3.Visible = false;
+            this.dtp_DateTo.CustomFormat = "";
+            this.dtp_DateTo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dtp_DateTo.Location = new System.Drawing.Point(155, 70);
+            this.dtp_DateTo.Name = "dtp_DateTo";
+            this.dtp_DateTo.Size = new System.Drawing.Size(143, 20);
+            this.dtp_DateTo.TabIndex = 0;
+            this.dtp_DateTo.Value = new System.DateTime(2017, 10, 1, 0, 0, 0, 0);
+            this.dtp_DateTo.Visible = false;
+            this.dtp_DateTo.ValueChanged += new System.EventHandler(this.dtp_DateTo_ValueChanged);
             // 
-            // label8
+            // label_DateTo
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(155, 54);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(42, 13);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "Date to";
-            this.label8.Visible = false;
+            this.label_DateTo.AutoSize = true;
+            this.label_DateTo.Location = new System.Drawing.Point(155, 54);
+            this.label_DateTo.Name = "label_DateTo";
+            this.label_DateTo.Size = new System.Drawing.Size(42, 13);
+            this.label_DateTo.TabIndex = 4;
+            this.label_DateTo.Text = "Date to";
+            this.label_DateTo.Visible = false;
             // 
-            // dateTimePicker2
+            // dtp_DateFrom
             // 
-            this.dateTimePicker2.CustomFormat = "";
-            this.dateTimePicker2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateTimePicker2.Location = new System.Drawing.Point(6, 70);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(143, 20);
-            this.dateTimePicker2.TabIndex = 0;
-            this.dateTimePicker2.Value = new System.DateTime(2017, 10, 1, 0, 0, 0, 0);
+            this.dtp_DateFrom.CustomFormat = "";
+            this.dtp_DateFrom.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dtp_DateFrom.Location = new System.Drawing.Point(6, 70);
+            this.dtp_DateFrom.Name = "dtp_DateFrom";
+            this.dtp_DateFrom.Size = new System.Drawing.Size(143, 20);
+            this.dtp_DateFrom.TabIndex = 0;
+            this.dtp_DateFrom.Value = new System.DateTime(2017, 10, 1, 0, 0, 0, 0);
+            this.dtp_DateFrom.ValueChanged += new System.EventHandler(this.dtp_DateFrom_ValueChanged);
             // 
-            // label7
+            // label_DateFrom
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 54);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(30, 13);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "Date";
+            this.label_DateFrom.AutoSize = true;
+            this.label_DateFrom.Location = new System.Drawing.Point(6, 54);
+            this.label_DateFrom.Name = "label_DateFrom";
+            this.label_DateFrom.Size = new System.Drawing.Size(30, 13);
+            this.label_DateFrom.TabIndex = 4;
+            this.label_DateFrom.Text = "Date";
             // 
             // imageList1
             // 
@@ -712,10 +713,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_History)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart_Analysis)).EndInit();
             this.panel3.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gb_Analysis.ResumeLayout(false);
+            this.gb_Analysis.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -763,19 +764,19 @@
         private System.Windows.Forms.DateTimePicker dtp_OperationDate;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.GroupBox gb_Analysis;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_Analysis;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cb_Account;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TextBox tb_Note;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cb_TypeOfDate;
+        private System.Windows.Forms.Label label_TypeOfDate;
+        private System.Windows.Forms.DateTimePicker dtp_DateFrom;
+        private System.Windows.Forms.Label label_DateFrom;
+        private System.Windows.Forms.DateTimePicker dtp_DateTo;
+        private System.Windows.Forms.Label label_DateTo;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridView dgv_History;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;

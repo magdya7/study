@@ -7,13 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CostsManagement
 {
     public partial class Form1 : Form
     {
-        Account acc;
-        Category cost, income;
+        Dictionary<string, Category> categoryList = new Dictionary<string, Category>();
+        Dictionary<string, Account> accountList = new Dictionary<string, Account>();
+        Dictionary<string, int> pointList = new Dictionary<string, int>();
         public Form1()
         {
             InitializeComponent();
@@ -25,48 +27,98 @@ namespace CostsManagement
         void LoadAccounts()
         {
             //Testing variant
-            acc = new Account();                    //Create new account
+            Account acc = new Account();                    //Create new account
+            accountList.Add(acc.Name, acc);
             cb_Account.Items.Add(acc.Name);         //Add account in combobox
             cb_Account.Text = acc.Name;
         }
 
         void LoadCategories()
         {
-            cost = new Category("Cost", false);     //Create two categories for costs and incomes
+            Category cost = new Category("Cost", false);     //Create two categories for costs and incomes
             cb_Category.Items.Add(cost.Name);
             cb_Category.Text = cost.Name;
-            income = new Category("Income", true);
+            Category income = new Category("Income", true);
             cb_Category.Items.Add(income.Name);
+
+            categoryList.Add(cost.Name, cost);
+            categoryList.Add(income.Name, income);
         }
 
         void LoadOperations()
         {
             //
-            RefreshTree();
-            RefreshTable();
-            UpdateChart();
+            FillTree();
+            FillTable();
+            FillChart();
         }
 
-        void RefreshTree()
+        void FillTree()
         {
             //
         }
 
-        void RefreshTable()
+        void FillTable()
         {
             //
         }
 
-        void UpdateChart()
+        void FillChart()
         {
-            //
+            
+            int i;
+            foreach (KeyValuePair<string, Category> ctg in categoryList)
+            {
+                chart_Analysis.Series["SeriesAnalysis"].Points.AddY(10);
+                i = chart_Analysis.Series["SeriesAnalysis"].Points.Count - 1;
+                chart_Analysis.Series["SeriesAnalysis"].Points[i].LegendText = ctg.Key;
+                chart_Analysis.Series["SeriesAnalysis"].Points[i].Label = ctg.Key;
+                pointList.Add(ctg.Key, i);
+            }
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        private void cb_TypeOfDate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //dateTimePicker2.Format = DateTimePickerFormat.Custom || DateTimePickerFormat.Long;
-            //dateTimePicker2.CustomFormat = "MMMM yyyy" //"April 2017"
-            //dateTimePicker2.CustomFormat = "yyyy" //"2017"
+            //Show or Hide dateTimePickers and formatting date depending from TypeOfDate 
+            switch (cb_TypeOfDate.Text)
+            {
+                case "Day":
+                    label_DateFrom.Text = "Date";
+                    dtp_DateFrom.Format = DateTimePickerFormat.Long;
+                    label_DateTo.Hide();
+                    dtp_DateTo.Hide();
+                    break;
+                case "Week":
+                    label_DateFrom.Text = "Date from";
+                    dtp_DateFrom.Format = DateTimePickerFormat.Long;
+                    label_DateTo.Show();
+                    dtp_DateTo.Show();
+                    dtp_DateTo.Enabled = false;
+                    dtp_DateTo.Value = dtp_DateFrom.Value.AddDays(7);
+                    break;
+                case "Month":
+                    label_DateFrom.Text = "Month";
+                    dtp_DateFrom.Format = DateTimePickerFormat.Custom;
+                    dtp_DateFrom.CustomFormat = "MMMM yyyy";
+                    label_DateTo.Hide();
+                    dtp_DateTo.Hide();
+                    break;
+                case "Year":
+                    label_DateFrom.Text = "Year";
+                    dtp_DateFrom.Format = DateTimePickerFormat.Custom;
+                    dtp_DateFrom.CustomFormat = "yyyy";
+                    label_DateTo.Hide();
+                    dtp_DateTo.Hide();
+                    break;
+                case "Other":
+                    label_DateFrom.Text = "Date from";
+                    dtp_DateFrom.Format = DateTimePickerFormat.Long;
+                    label_DateTo.Show();
+                    dtp_DateTo.Show();
+                    dtp_DateTo.Enabled = true;
+                    dtp_DateTo.Value = dtp_DateFrom.Value;
+                    break;
+            }
         }
 
         private void tb_Sum_KeyPress(object sender, KeyPressEventArgs e)
@@ -116,6 +168,7 @@ namespace CostsManagement
 
         private void tb_Sum_Enter(object sender, EventArgs e)
         {
+            //Selecting whole part of sum for changing
             tb_Sum.SelectionStart = 0;
             tb_Sum.SelectionLength = tb_Sum.Text.IndexOf(",");  
         }
@@ -143,30 +196,62 @@ namespace CostsManagement
             }
         }
 
+        private void dtp_DateFrom_ValueChanged(object sender, EventArgs e)
+        {
+            //Formating date in dateTimePickers for week or arbitrary period
+            switch (cb_TypeOfDate.Text)
+            {
+                case "Week":
+                    dtp_DateTo.Value = dtp_DateFrom.Value.AddDays(7);
+                    break;
+                case "Other":
+                    if (dtp_DateTo.Value < dtp_DateFrom.Value)
+                        dtp_DateTo.Value = dtp_DateFrom.Value;
+                    break;
+            }
+        }
+
+        private void dtp_DateTo_ValueChanged(object sender, EventArgs e)
+        {
+            //Checking that DateTo can't be less then DateFrom
+            if (dtp_DateTo.Value < dtp_DateFrom.Value)
+            {
+                MessageBox.Show("\"Date to\" can\'t be less then \"Date from\"", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtp_DateTo.Value = dtp_DateFrom.Value;
+            }
+
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             double sum = Double.Parse(tb_Sum.Text);
-            Operation opp;
-            if (cb_Category.Text == cost.Name)
-            {
-                opp = new Operation(dtp_OperationDate.Value, acc, cost, sum);
-            }
-            else
-            {
-                opp = new Operation(dtp_OperationDate.Value, acc, income, sum);
-            }
 
+            Operation opp = new Operation(dtp_OperationDate.Value, accountList[cb_Account.Text], categoryList[cb_Category.Text], sum);
+
+            UpdateTable(opp, tb_Note.Text);
+            UpdateTree(opp);
+            UpdateChart(opp);
+        }
+
+        void UpdateChart(Operation opp)
+        {
+            chart_Analysis.Series["SeriesAnalysis"].Points[pointList[opp.OperationType.Name]].YValues[0] += opp.Sum;
+            chart_Analysis.Series["SeriesAnalysis"].Points.ResumeUpdates();
+        }
+
+        void UpdateTable(Operation opp, string note)
+        {
             int rowNum = dgv_History.Rows.Add();
+            dgv_History.Rows[rowNum].Cells["Date"].Value = opp.Date.ToString("dd MMMM yyyy");
+            dgv_History.Rows[rowNum].Cells["Account"].Value = opp.Account.Name;
+            dgv_History.Rows[rowNum].Cells["Category"].Value = opp.OperationType.Name;
+            dgv_History.Rows[rowNum].Cells["Sum"].Value = opp.Sum.ToString();
+            dgv_History.Rows[rowNum].Cells["Note"].Value = note;
+        }
 
-            string opDate;
-            opDate = dtp_OperationDate.Value.ToString("dd MMMM yyyy");
-            dgv_History.Rows[rowNum].Cells["Date"].Value = opDate;
-            dgv_History.Rows[rowNum].Cells["Account"].Value = cb_Account.Text;
-            dgv_History.Rows[rowNum].Cells["Category"].Value = cb_Category.Text;
-            dgv_History.Rows[rowNum].Cells["Sum"].Value = tb_Sum.Text;
-            dgv_History.Rows[rowNum].Cells["Note"].Value = tb_Note.Text;
-
+        void UpdateTree(Operation opp)
+        {
+            string opDate = opp.Date.ToString("dd MMMM yyyy");
             TreeNode parent;
             if (treeHistory.Nodes.Find(opDate, false).Length == 0)
             {
@@ -175,9 +260,9 @@ namespace CostsManagement
                 treeHistory.Nodes.Add(parent);
             }
 
-            TreeNode child = new TreeNode(tb_Sum.Text + " "+cb_Category.Text);
+            TreeNode child = new TreeNode(tb_Sum.Text + " " + cb_Category.Text);
             child.Name = child.Text;
-            if(opp.OperationType.Type)
+            if (opp.OperationType.Type)
                 child.ForeColor = Color.Green;
             else
                 child.ForeColor = Color.Red;
