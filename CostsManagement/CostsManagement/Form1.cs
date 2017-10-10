@@ -71,6 +71,12 @@ namespace CostsManagement
 
         private void tb_Sum_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //Save 3 symbols for coins
+            if (tb_Sum.Text.IndexOf(',') != -1)
+                tb_Sum.MaxLength = 15;
+            else
+                tb_Sum.MaxLength = 12;
+            
             //Replace "." to "," for convert from string to double
             if (e.KeyChar == '.') 
                 e.KeyChar = ',';
@@ -83,8 +89,11 @@ namespace CostsManagement
             if (e.KeyChar >= '0' && e.KeyChar <= '9')
             {
                 //Only 2 digits after separator (",")
-                if (tb_Sum.Text.IndexOf(',') != -1 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 2 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 0)
-                    e.Handled = true;
+                if (tb_Sum.Text.IndexOf(',') != -1 && tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') > 0)
+                    if (tb_Sum.SelectionStart - tb_Sum.Text.IndexOf(',') < 3)
+                        tb_Sum.SelectionLength = 1;
+                    else
+                        e.Handled = true;
             }
             else
                 //Allow "," when its not begin of text
