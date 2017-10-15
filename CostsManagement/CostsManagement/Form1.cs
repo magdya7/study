@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CostsManagement
 {
@@ -16,12 +11,13 @@ namespace CostsManagement
         Dictionary<string, Category> categoryList = new Dictionary<string, Category>();
         Dictionary<string, Account> accountList = new Dictionary<string, Account>();
         Dictionary<string, int> pointList = new Dictionary<string, int>();
+
+        public static StartSettingsForm settingsForm;
         public Form1()
         {
             InitializeComponent();
-            LoadAccounts();
-            LoadCategories();
-            LoadOperations();                   
+
+            Text = "Cost managment v." + Properties.Settings.Default.Version;                  
         }
 
         void LoadAccounts()
@@ -65,11 +61,10 @@ namespace CostsManagement
 
         void FillChart()
         {
-            
             int i;
             foreach (KeyValuePair<string, Category> ctg in categoryList)
             {
-                chart_Analysis.Series["SeriesAnalysis"].Points.AddY(10);
+                chart_Analysis.Series["SeriesAnalysis"].Points.AddY(0);
                 i = chart_Analysis.Series["SeriesAnalysis"].Points.Count - 1;
                 chart_Analysis.Series["SeriesAnalysis"].Points[i].LegendText = ctg.Key;
                 chart_Analysis.Series["SeriesAnalysis"].Points[i].Label = ctg.Key;
@@ -269,5 +264,18 @@ namespace CostsManagement
             treeHistory.Nodes[opDate].Nodes.Add(child);
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            MessageBox.Show(Properties.Settings.Default.LaunchTheSettingsWizard.ToString());
+            if (Properties.Settings.Default.LaunchTheSettingsWizard)
+            {
+                settingsForm = new StartSettingsForm();
+                settingsForm.ShowDialog();
+            }
+
+            LoadAccounts();
+            LoadCategories();
+            LoadOperations();
+        }
     }
 }
